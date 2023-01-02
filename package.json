@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon -e js,ejs",
     "cy:run": "cypress run",
-    "test": "npm start & wait-on http://localhost:3000 & npm run cy:run"
+    "test": "npm start & wait-on postgres://todo_db_wjii_user:g2JXAapEURQOYDwT5PA7XRj3qcxDUGft@dpg-cepa75pgp3jlcskugs1g-a/todo_db_wjii & npm run cy:run"
   },
   "lint-staged": {
     "*.js": [
