@@ -1,11 +1,9 @@
 describe("", () => {
   beforeEach(() => {
-    // eslint-disable-next-line no-undef
     cy.visit(Cypress.env("STUDENT_SUBMISSION_URL"));
   });
 
   it("contains a header h1 tag with the application title", () => {
-    // eslint-disable-next-line no-undef
     cy.get("h1");
   });
 
