@@ -8,7 +8,7 @@ describe("Todo Express application Design Implementation", () => {
   });
 
   it("contains three h5 tags for sections in the order Overdue, Due Today and Due Later", () => {
-    cy.get("h5").should("have.length", 3);
+    cy.get("h5").should("have.length",3);
 
     cy.get("h5").each((_section, _index, sections) => {
       let sectionTexts = ["Overdue", "Due Today", "Due Later"];
