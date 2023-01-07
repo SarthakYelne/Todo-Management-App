@@ -7,65 +7,77 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    // eslint-disable-next-line no-unused-vars
     static associate(models) {
+      Todo.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
       // define association here
     }
-
-    static addTodo({ title, dueDate }) {
-      return this.create({ title: title, dueDate: dueDate, completed: false });
+    static addTodo({ title, dueDate, userId }) {
+      return this.create({
+        title: title,
+        dueDate: dueDate,
+        completed: false,
+        userId,
+      });
     }
-
-    static async overdue() {
+    static getTodos() {
+      return this.findAll({ order: [["id", "ASC"]] });
+    }
+    markAsCompleted() {
+      return this.update({ completed: true });
+    }
+    static overdue(userId) {
       return this.findAll({
         where: {
-          dueDate: {
-            [Op.lt]: new Date(),
-          },
+          dueDate: { [Op.lt]: new Date().toLocaleDateString("en-CA") },
+          userId,
           completed: false,
         },
       });
     }
-
-    static async dueLater() {
+    static dueToday(userId) {
       return this.findAll({
         where: {
-          dueDate: {
-            [Op.gt]: new Date(),
-          },
+          dueDate: { [Op.eq]: new Date().toLocaleDateString("en-CA") },
+          userId, //userId: userId
           completed: false,
         },
       });
     }
-
-    static async dueToday() {
+    static dueLater(userId) {
       return this.findAll({
         where: {
-          dueDate: {
-            [Op.eq]: new Date(),
-          },
+          dueDate: { [Op.gt]: new Date().toLocaleDateString("en-CA") },
+          userId,
           completed: false,
         },
       });
     }
-
-    static async completed() {
+    static completedItems(userId) {
       return this.findAll({
         where: {
+          userId,
           completed: true,
         },
       });
     }
-    static async remove(id) {
+    static remove(id, userId) {
       return this.destroy({
         where: {
           id,
+          userId,
         },
       });
     }
-
-    setCompletionStatus(completed) {
-      return this.update({ completed });
+    deleteTodo() {
+      return this.removetask(id);
+    }
+    // updateTodo(){
+    // return this.update({completed:true})
+    // }
+    setCompletionStatus(bool) {
+      return this.update({ completed: bool });
     }
   }
   Todo.init(
